@@ -1,3 +1,4 @@
+import ldap
 from forum.authentication.base import AuthenticationConsumer, ConsumerTemplateContext, InvalidAuthentication
 from forum.models import User
 from forum.actions import UserJoinsAction
@@ -38,7 +39,7 @@ class LDAPAuthConsumer(AuthenticationConsumer):
             ldapo.start_tls_s()
         ldapo.set_option(ldap.OPT_PROTOCOL_VERSION, 3)
         try:
-            ldapo.simple_bind_s(search[0][1][str(settings.LDAP_DN)][0],password)
+            ldapo.simple_bind_s(uid + ',' + str(settings.LDAP_BASE_DN),password)
         except ldap.LDAPError:
             #could not bind as user - password is incorrect
             raise InvalidAuthentication(_('Login failed. Please enter valid username and password (both are case-sensitive)'))

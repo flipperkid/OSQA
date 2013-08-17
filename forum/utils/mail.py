@@ -31,7 +31,7 @@ def send_template_email(recipients, template, context, sender=None, reply_to = N
 
 def create_connection():
     connection = SMTP(str(settings.EMAIL_HOST), str(settings.EMAIL_PORT),
-                          local_hostname=DNS_NAME.get_fqdn())
+                          local_hostname=DNS_NAME.get_fqdn(), timeout=30)
 
     if bool(settings.EMAIL_USE_TLS):
         connection.ehlo()
