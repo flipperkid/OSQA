@@ -15,7 +15,7 @@ def displayhtml (public_key):
 
     return """
     <div id="recaptcha_field"></div>
-    <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+    <script type="text/javascript" src="https://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
 
     <script type="text/javascript">
          $(function(){
