@@ -51,7 +51,6 @@ def exporter(request):
                     if inf.get(DATE_AND_AUTHOR_INF_SECTION, 'site') == settings.APP_URL and os.path.exists(
                                     os.path.join(folder, inf.get(DATE_AND_AUTHOR_INF_SECTION, 'file-name'))):
                         available.append({
-                            'author': User.objects.get(id=inf.get(DATE_AND_AUTHOR_INF_SECTION, 'author')),
                             'date': datetime.datetime.strptime(inf.get(DATE_AND_AUTHOR_INF_SECTION, 'finished'), DATETIME_FORMAT)
                         })
             except Exception, e:
@@ -98,5 +97,15 @@ def download(request):
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
     return response
 
+@admin_tools_page(_('importer'), _('XML data restore'))
+def importer(request):
+    thread = Thread(target=start_import, args=[
+            '/srv/osqa.1/osqa/forum_modules/exporter/backups/migration.zip',
+            {}, # Tag mapping
+            request.user])
+    thread.setDaemon(True)
+    thread.start()
+
+    return HttpResponseRedirect(reverse('exporter_running', kwargs=dict(mode='importer')))
 
 
