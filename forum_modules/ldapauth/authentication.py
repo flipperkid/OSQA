@@ -49,8 +49,12 @@ class LDAPAuthConsumer(AuthenticationConsumer):
             return User.objects.get(username=username)
         except User.DoesNotExist:
             userinfo = search[0][1]
-            _user = User( username = userinfo[str(settings.LDAP_UID)][0],
-                          email = userinfo[str(settings.LDAP_MAIL)][0],
+            usernameVal = userinfo[str(settings.LDAP_UID)][0]           
+            emailVal = usernameVal + '@schrodinger.com'
+            if str(settings.LDAP_MAIL) in userinfo
+              emailVal = userinfo[str(settings.LDAP_MAIL)][0]           
+            _user = User( username = usernameVal, 
+                          email = emailVal,
                           real_name = userinfo[str(settings.LDAP_NAME)][0] )
             _user.email_isvalid = True
             _user.set_unusable_password()
