@@ -51,7 +51,7 @@ class LDAPAuthConsumer(AuthenticationConsumer):
             userinfo = search[0][1]
             usernameVal = userinfo[str(settings.LDAP_UID)][0]           
             emailVal = usernameVal + '@schrodinger.com'
-            if str(settings.LDAP_MAIL) in userinfo
+            if str(settings.LDAP_MAIL) in userinfo:
               emailVal = userinfo[str(settings.LDAP_MAIL)][0]           
             _user = User( username = usernameVal, 
                           email = emailVal,
